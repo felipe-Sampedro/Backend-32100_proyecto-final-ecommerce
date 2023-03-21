@@ -11,7 +11,7 @@ const getUsers = async (req, res, next) => {
       await UsersModel.update(user._id,user)
       return res.json(successResponse(user))
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       next(error);
     }
   };

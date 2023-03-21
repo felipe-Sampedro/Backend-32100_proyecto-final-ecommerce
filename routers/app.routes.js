@@ -23,8 +23,8 @@ router.get("/", async (req, res) => {
   if (user) {
     return res.redirect("/api/index");
   } else {
-    console.log('entro aqui');
-    console.log(user);
+    // console.log('entro aqui');
+    // console.log(user);
     return res.sendFile(path.resolve(__dirname, "../public/login.html"));
   }
 });

@@ -1,6 +1,7 @@
 const { generateToken } = require("../middlewares/jwt.middleware");
 const UsersDao = require('../models/daos/users/users.mongo.dao');
 const { successResponse, HttpError } = require("../utils/api.utils");
+const bcrypt = require('bcrypt')
 
 const UsersModel = new UsersDao();  
 const salt = () => bcrypt.genSaltSync(10);
@@ -9,7 +10,7 @@ const isValidPassword = (user,password) => bcrypt.compareSync(password,user.pass
 
 const register= async (req, res, next)=> {
     try {
-        const { username, password, email } = req.body;
+        const { username, email, password} = req.body;
         const baseUser = {
           username,
           email,
@@ -32,16 +33,20 @@ const login= async (req, res, next)=> {
     try {
         const { email, password } = req.body;
         const user = await UsersModel.getByEmail(email);
-        if (!isValidPassword(user,pass)) {
-            throw new HttpError(HTTP_STATUS.BAD_REQUEST,"wronf email or password")
+        console.log('usuario ',user);
+        console.log('usuario y password validos ', isValidPassword(user,password));
+        if (!isValidPassword(user,password)) {
+            throw new HttpError(HTTP_STATUS.BAD_REQUEST," wrong email or password")
         }
 
         const baseUser ={
-            email: user.email,
             username: user.username,
+            email: user.email,
             visits: user.visits
         }
+        console.log('el base user es: ', baseUser);
         const token = generateToken(baseUser);
+        console.log('el token es ', token);
         return res.json(successResponse({access_token:token}))
 
 

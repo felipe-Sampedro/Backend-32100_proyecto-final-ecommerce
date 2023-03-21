@@ -1,6 +1,8 @@
 const { HTTP_STATUS } = require('../constants/api.constants');
+
 const { CartsDao } = require('../models/daos/app.daos');
 const { successResponse } = require('../utils/api.utils');
+
 
 const cartsDao= new CartsDao()
 
@@ -18,9 +20,9 @@ class CartsControllers{
       };  
     
       deleteCart = async (req, res, next) => {
-        const { Id } =  req.params;
+        const { id } =  req.params;
         try{
-          const delCart = await CartDao.delete(Id);
+          const delCart = await cartsDao.delete(id);
           const response = successResponse(delCart);
           res.status(HTTP_STATUS.CREATED).json(response);
         }
@@ -30,9 +32,9 @@ class CartsControllers{
       };
     
       listCartProds = async (req, res,next) => { 
-      const { Id } =  req.params;
+      const { id } =  req.params;
         try {
-          const products = await cartsDao.getCartProds(Id)
+          const products = await cartsDao.getCartProds(id)
           const response = successResponse(products)
           res.status(HTTP_STATUS.OK).json(response)
         }
@@ -42,9 +44,9 @@ class CartsControllers{
       };
     
       addProds = async (req, res, next) => {
-        const { IdCar, IdProd } =  req.params;    
+        const { idCar, idProd } =  req.params;    
         try {
-          const products = await cartsDao.addProductToCart(IdCar, IdProd)
+          const products = await cartsDao.addProductToCart(idCar, idProd)
           const response = successResponse(products)
           res.status(HTTP_STATUS.OK).json(response)
         }

@@ -9,7 +9,7 @@ const productsMongoDAO = new ProductsMongoDAO()
 const collection = 'carts';
 
 const cartSchema = new Schema({
-    timestamp: { type: Date, default: new Date().toLocaleString() },
+    timestamp: { type: Date, default: new Date()},
     products: { type: Array, required: true, default: [] }
   });
 
@@ -18,20 +18,25 @@ const cartSchema = new Schema({
         super(collection, cartSchema);
     }
 
+    async saveCart (){
+        const cart = await new this.model();
+        return await cart.save();
+    }
+
     async getCartProds (cartId){
         const cart = await this.getById(cartId);
         return [...cart.products]
     }
 
-    async addProductToCart(cartId,productId){
+    async addProductToCart(idCart,idProd){
         
-        const product = await productsMongoDAO.getById(productId);
+        const product = await productsMongoDAO.getById(idProd);
         const addCartProd = await this.model.updateOne(
-            {_id: cartId},
-            {$push:{products: productId}},
+            {_id: idCart},
+            {$push:{products: idProd}},
         )
         if (!addCartProd.matchedCount) {
-            const message = `Resource with id ${cartId} does not exist in our records`;
+            const message = `Resource with id ${idCart} does not exist in our records`;
             throw new HttpError(HTTP_STATUS.NOT_FOUND, message);
         }
         return product;
@@ -50,6 +55,23 @@ const cartSchema = new Schema({
         }
         return deleteProd;
     }
+
+
+    // deleteCart = async (idCart)=> {
+    //         await productsMongoDAO.getById(idCart);
+    //         const deleteCart = await this.model.updateOne(
+    //             {_id: idCart},
+    //             {$pull:{products: id_prod}}
+    //         )
+    //         if (!deleteCart.matchedCount) {
+    //             const message = `Resource with id ${idCart} does not exist in our records`;
+    //             throw new HttpError(HTTP_STATUS.NOT_FOUND, message);
+    //         }
+    //         return deleteProd;
+    //     }
+    
+      
+
   };
 
   module.exports = CartMongoDao;

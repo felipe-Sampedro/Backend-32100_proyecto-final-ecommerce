@@ -6,9 +6,10 @@ const {HTTP_STATUS} = require('../../../constants/api.constants');
 const collection = 'users';
 
 const usersSchema = new Schema({
-    name: {type: String, required: true},    
-    address: {type: String, required: true},
-    age: {type: Number, required: true},
+    // name: {type: String, required: true},    
+    username: {type: String, required: true},    
+    // address: {type: String, required: true},
+    // age: {type: Number, required: true},
     /* image: { type: String, required: true}, */
     email: {type: String,
       required: true,
@@ -16,8 +17,8 @@ const usersSchema = new Schema({
       match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Invalid email"]
   },   
   password: {type: String, required: true},
-    createdAt: {type: Date, default: new Date().toLocaleString()},
-    updatedAt: {type: Date, default: new Date().toLocaleString()},
+    createdAt: {type: Date, default: new Date()},
+    updatedAt: {type: Date, default: new Date()},
     
 });
 
@@ -28,7 +29,7 @@ class UserMongoDao extends MongoContainer {
       async createUser(userItem) {        
         try {          
           const user = await this.save(userItem); 
-          console.log(user);     
+          // console.log(user);     
           return user;
         }
         catch(error) {
@@ -57,19 +58,31 @@ class UserMongoDao extends MongoContainer {
       }
     
       async getByEmail(email) {
-        try {
-          const document = await this.model.findOne({ email }, { __v: 0 });
-          if (!document) {
-            const errorMessage = `Wrong username or password`;
-            throw new HttpError(HTTP_STATUS.NOT_FOUND, errorMessage);
-          } else {
-            return document;
-          }
+        // try {
+        //   const document = await this.model.findOne({ email }, { __v: 0 });
+        //   console.log('dicumento ',document);
+        //   if (!document) {
+        //     const errorMessage = `Wrong username or password`;
+        //     throw new HttpError(HTTP_STATUS.NOT_FOUND, errorMessage);
+        //   } else {
+        //     return document;
+        //   }
+        // }
+        // catch(error) {
+        //   throw new HttpError(HTTP_STATUS.INTERNAL_ERROR, error.message, error);
+        // }
+
+        const document = await this.model.findOne({ email }, { __v: 0 })
+        if (!document) {
+          const message = `User with email ${email} doesn't exist`
+          throw new HttpError(HTTP_STATUS.NOT_FOUND, message)
         }
-        catch(error) {
-          throw new HttpError(HTTP_STATUS.INTERNAL_ERROR, error.message, error);
-        }
+        return document
+
+
       }
 };
-//usersSchema.index({email: 1});
+
+
+
 module.exports = UserMongoDao;

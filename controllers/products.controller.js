@@ -19,6 +19,7 @@ class ProductsControllers {
   
     getProductsById = async (req, res, next) => {   
       const { id } =  req.params;
+      console.log('el id es: ',id);
       try{
         const products = await productsDao.getById(id);
         const response = successResponse(products);
