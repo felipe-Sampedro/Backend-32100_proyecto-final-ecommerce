@@ -18,14 +18,14 @@
                 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" class="form-control " type="email" step="0.01" name="email" required>
+                    <input id="email" class="form-control " type="email" name="email" required>
                 </div> 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input id="password" class="form-control " type="password" name="password" required>
                 </div>  
                  <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-success mt-3">Enviar</button>                    
+                    <button type="submit" class="btn btn-success mt-3">Enviar</button>                                   
                  </div> 
             </form>            
             <br>           
@@ -37,33 +37,33 @@
             <br>
             <form id="signupForm" class="" action="/api/auth/register" method="post">
                 <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input id="name" class="form-control " type="text" step="0.01" name="name" required>
+                    <label for="name">Username</label>
+                    <input id="username" class="form-control " type="text" name="username" required>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="address">Direccion</label>
                     <input id="address" class="form-control " type="text" step="0.01" name="address" required>
-                </div>   
-                <div class="form-group">
+                </div>    -->
+                <!-- <div class="form-group">
                     <label for="age">Edad</label>
-                    <input id="age" class="form-control " type="number" step="0.01" name="age" required>
-                </div>                           
+                    <input id="age" class="form-control " type="number" step="1" name="age" required>
+                </div>                            -->
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" class="form-control " type="email" step="0.01" name="username" required>
+                    <input id="email" class="form-control " type="email" name="email" required>
                 </div> 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input id="password" class="form-control " type="password" name="password" required>
                 </div>  
-                <form id="signupForm" action="/api/file" enctype="multipart/from-data" method="POST">
+                <!-- <form id="signupForm" action="/api/file" enctype="multipart/from-data" method="POST">
                     <div class="form-group">
                         <label for="avatar">Imagen de Perfil</label>
                         <input id="avatar" class="form-control " type="file" step="0.01" name="avatar" accept="image/png, image/jpeg" required>
                         <button onclick="clearFile('single')" class="btn btn-danger mt-3">Eliminar archivo</button>
                     </div>
                     <div>               
-                </form>
+                </form> -->
                  <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-success mt-3">Registrar</button>                    
                  </div>   

@@ -1,6 +1,7 @@
 const express = require("express");
 const errorMiddleware = require("./middlewares/error.middleware");
 const apiRoutes = require("./routers/app.routes");
+const cors = require('cors');
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const env = require("./env.config");
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors()); 
 app.use(express.static("./views/layouts"));
 
 app.use(
@@ -40,6 +42,7 @@ app.engine(
 );
 app.set("views", "./views/layouts");
 app.set("view engine", "hbs");
+
 
 app.use("/api", apiRoutes);
 app.use(errorMiddleware);

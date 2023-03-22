@@ -2,6 +2,9 @@ const { generateToken } = require("../middlewares/jwt.middleware");
 const UsersDao = require('../models/daos/users/users.mongo.dao');
 const { successResponse, HttpError } = require("../utils/api.utils");
 const bcrypt = require('bcrypt')
+const sendMail = require('../utils/email.utils');
+const { HTTP_STATUS } = require("../constants/api.constants");
+
 
 const UsersModel = new UsersDao();  
 const salt = () => bcrypt.genSaltSync(10);
@@ -22,7 +25,8 @@ const register= async (req, res, next)=> {
         };
         await UsersModel.createUser(userBD);
         const token = generateToken(baseUser);
-        return res.json({ access_token: token });
+        sendMail.sendmail(email,username);
+        return res.json({ access_token: token })
       } catch (error) {
           next(error)
       }
@@ -44,9 +48,9 @@ const login= async (req, res, next)=> {
             email: user.email,
             visits: user.visits
         }
-        console.log('el base user es: ', baseUser);
+        // console.log('el base user es: ', baseUser);
         const token = generateToken(baseUser);
-        console.log('el token es ', token);
+        // console.log('el token es ', token);
         return res.json(successResponse({access_token:token}))
 
 

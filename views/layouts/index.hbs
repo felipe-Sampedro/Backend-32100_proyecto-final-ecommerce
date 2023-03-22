@@ -19,8 +19,59 @@
             {{>header}}
         </div>        
         <div id="contenedor-hbs" class="m-3"></div>    
-            
     {{/if}}
+
+    {{#if register}}
+        <div class="container w-50 mt-3">
+
+        </div>
+    {{else}}
+        <div class="container w-50 mt-3">
+            <div class="container col-5 mt-5">        
+                <div class="border p-2 m-3">            
+                    <h4 class="text-center">Registro</h4>
+                    <br>
+                    <form id="signupForm" class="" action="/api/auth/register" method="post">
+                        <div class="form-group">
+                            <label for="name">Username</label>
+                            <input id="username" class="form-control " type="text" name="username" required>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="address">Direccion</label>
+                            <input id="address" class="form-control " type="text" step="0.01" name="address" required>
+                        </div>    -->
+                        <!-- <div class="form-group">
+                            <label for="age">Edad</label>
+                            <input id="age" class="form-control " type="number" step="1" name="age" required>
+                        </div>                            -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" class="form-control " type="email" name="email" required>
+                        </div> 
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id="password" class="form-control " type="password" name="password" required>
+                        </div>  
+                        <!-- <form id="signupForm" action="/api/file" enctype="multipart/from-data" method="POST">
+                            <div class="form-group">
+                                <label for="avatar">Imagen de Perfil</label>
+                                <input id="avatar" class="form-control " type="file" step="0.01" name="avatar" accept="image/png, image/jpeg" required>
+                                <button onclick="clearFile('single')" class="btn btn-danger mt-3">Eliminar archivo</button>
+                            </div>
+                            <div>               
+                        </form> -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success mt-3">Registrar</button>                    
+                        </div>   
+                    </form>  
+                            
+                    <br>           
+                </div>
+            </div>  
+        </div>        
+        <div id="contenedor-hbs" class="m-3"></div>    
+    {{/if}}
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>    
     <script type="module" src="/main.js" ></script>
     <script>

@@ -2,33 +2,32 @@ const nodemailer = require('nodemailer')
 const envConfig = require('../env.config')
 
 
-const sendEmail = async options => {
-  nodemailer.createTestAccount(async (err, account) => {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      auth: {
-        // user: account.user,
-        user: 'myrtie.beer@ethereal.email',
-        pass: 'e6jeHkcn3TeVcsKrMe'
-      }
-    })
+const transporter = nodemailer.createTransport({
+  host: 'smtp.ethereal.email',
+  port: 587,
+  auth: {
+      user: envConfig.TEST_MAIL,
+      pass: envConfig.PASSWORD_MAIL
+  }
+});
 
-    const mailOptions = {
-      from: `"CHBP Server" ${account.user}`,
-      to: envConfig.ADMIN_EMAIL,
-      subject: 'Proyecto Final BackEnd CH 32100',
-      html: '<h1>Cuerpo del mensaje</h1>'
-    }
+const sendmail = async (email, usuario) => {
+  try {
+      const mailPayload = {
+          from: 'Proyecto Final Ecommerce Coder House',
+          to: envConfig.TEST_MAIL,
+          subject: 'Usuario nuevo registrado',
+          html: `<p>Usuario ${usuario} se registro correctamente</p>`
+      };
 
-    try {
-      const info = await transporter.sendMail(mailOptions)
-
-      console.log((`Email sended! Preview URL: ${nodemailer.getTestMessageUrl(info)}`));
-    } catch (error) {
-      console.log(error)
-    }
-  })
+      const mailResponse = await transporter.sendMail(mailPayload);
+      console.log(mailResponse);
+  } catch (error) {
+      console.log(error.message); 
+      return error.message;       
+  }
 }
 
-export default sendEmail
+module.exports ={
+  sendmail
+} 

@@ -16,23 +16,31 @@ router.use("/auth", authRoutes);
 router.use(filesRoutes);
 
 const ProductsMongoDao = require('../models/daos/products/products.mongo.dao');
+const { jwtAuth } = require("../middlewares/jwt.middleware");
 const productsApi = new ProductsMongoDao();
 
 router.get("/", async (req, res) => {
   const user = req.user;
-  if (user) {
+  const { username, email, password} = req.body
+  // if (user) {
+  if (username && email && password) {
+    console.log('entro aqui22222');
+    console.log(user);
     return res.redirect("/api/index");
   } else {
-    // console.log('entro aqui');
-    // console.log(user);
+    console.log('entro aqui');
+    console.log(user);
+    // return res.sendFile(path.resolve(__dirname, "../public/login.html"));
     return res.sendFile(path.resolve(__dirname, "../public/login.html"));
   }
 });
 
-router.get("/index", auth, async (req, res) => {
-  const user = await req.user.name;
+// router.get("/index", auth, async (req, res) => {
+router.get("/index", jwtAuth, async (req, res) => {
+  // const user = await req.user.name;
+  const { username, email, password} = req.body
   const products = await productsApi.getAll();
-  res.render("index", { sessionUser: user, logout: false, products: products });
+  res.render("index", { sessionUser: username, logout: false, products: products });
 });
 
 router.get("/logout", auth, async (req, res, next) => {
